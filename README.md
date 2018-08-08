@@ -1,8 +1,6 @@
 # UserInfoNormalizer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/user_info_normalizer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+個人情報の形式を正規化するgemです。半角カナ変換など、ほぼ毎回ググってしまうような処理を代わりにやってくれます。
 
 ## Installation
 
@@ -21,8 +19,40 @@ Or install it yourself as:
     $ gem install user_info_normalizer
 
 ## Usage
+今の所名前カナ、住所、郵便番号の形式をいい感じにしてくれます。
 
-TODO: Write usage instructions here
+```ruby
+'ピティナ　ﾀﾛウ'.normalize_name_kana
+#=> 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
+'12３ー5747'.normalize_zip_code
+#=> '１２３－５７４７'
+'東京豊島区巣鴨1丁目2ー2コーポ203'.normalize_address
+#=> '東京豊島区巣鴨１丁目２－２コーポ２０３'
+```
+
+config/initializers/user_info_normalizer.rbファイルに以下を記述することで
+変換する形式を指定できます。
+
+```ruby
+UserInfoNormalizer.configure do |config|
+  config.name_kana_form = 'ピティナ　タロウ'
+  config.zip_code = '123-4567'
+end
+
+#...
+ 
+'ピティナ　ﾀﾛウ'.normalize_name_kana
+#=> 'ピティナ　タロウ'
+'12３ー5747'.normalize_zip_code
+#=> '123-5747'
+```
+
+## TODO
+
+- name_kanaにスペース２つが間にあるときに除去してくれない
+- configureの設定項目の充実
+- normalizerの項目充実
+- その他たくさんある
 
 ## Development
 
@@ -32,7 +62,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/user_info_normalizer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hiratamasato/user_info_normalizer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
