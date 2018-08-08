@@ -9,3 +9,15 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp
+/vendor/bundl
+/public/assets
+
+# Ignore ide file
+.idea
+# Ignore rubocop files
+.rubocop*
