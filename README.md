@@ -7,7 +7,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'user_info_normalizer'
+gem 'user_info_normalizer', git: 'https://github.com/hiratamasato/user_info_normalizer'
 ```
 
 And then execute:
@@ -22,8 +22,8 @@ Or install it yourself as:
 今の所名前カナ、住所、郵便番号の形式をいい感じにしてくれます。
 
 ```ruby
-'ピティナ　ﾀﾛウ'.normalize_name_kana
-#=> 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
+'ピティナ　ｼﾞﾛウ'.normalize_name_kana
+#=> 'ﾋﾟﾃｨﾅ ｼﾞﾛｳ'
 '12３ー5747'.normalize_zip_code
 #=> '１２３－５７４７'
 '東京豊島区巣鴨1丁目2ー2コーポ203'.normalize_address
@@ -31,7 +31,7 @@ Or install it yourself as:
 ```
 
 config/initializers/user_info_normalizer.rbファイルに以下を記述することで
-変換する形式を指定できます。
+変換する形式を指定できます。（golangの"2006/1/2 15:04:05"みたいに具体的な形を与えます）
 
 ```ruby
 UserInfoNormalizer.configure do |config|
@@ -41,8 +41,8 @@ end
 
 #...
  
-'ピティナ　ﾀﾛウ'.normalize_name_kana
-#=> 'ピティナ　タロウ'
+'ピティナ　ｼﾞﾛウ'.normalize_name_kana
+#=> 'ピティナ　ジロウ'
 '12３ー5747'.normalize_zip_code
 #=> '123-5747'
 ```
