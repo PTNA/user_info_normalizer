@@ -16,56 +16,56 @@ module UserInfoNormalizer
     end
   end
 
-end
+  refine String do
+    def normalize_name_kana
+      case UserInfoNormalizer::configuration.name_kana_form
+      when 'ピティナ　タロウ'
+        self.tr(' ', '　').squeeze('　').to_katakana
+      else
+        # default: 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
+        self.tr('　', ' ').squeeze(' ').to_hw_katakana
+      end.strip
+    end
 
-class String
-  def normalize_name_kana
-    case UserInfoNormalizer::configuration.name_kana_form
-    when 'ピティナ　タロウ'
-      self.tr(' ', '　').squeeze('　').to_katakana
-    else
-      # default: 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
-      self.tr('　', ' ').squeeze(' ').to_hw_katakana
-    end.strip
+    def normalize_address
+      # 数字の前後で長音などはありえないのでハイフンに直す, 数字も全角に
+      self.tr('0-9', '０-９').gsub(/([０-９])(#{UserInfoNormalizer::HYPHEN_REGEXP})/, '\1－').strip
+    end
+
+    def normalize_zip_code
+      case UserInfoNormalizer::configuration.zip_code_form
+      when '123-4567'
+        self.tr('０-９', '0-9')
+            .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-')
+            .squeeze('-')
+            .delete("^0-9|-")
+      else
+        # default: '１２３－４５６７'
+        self.tr('0-9', '０-９')
+            .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－')
+            .squeeze('－')
+            .delete("^０-９|－")
+      end.strip
+    end
+
+    def to_hiragana
+      NKF.nkf('-w --hiragana', self)
+    end
+
+    def to_katakana
+      NKF.nkf('-w --katakana', self)
+    end
+
+    # ひらがな、カタカナ混じりのものをすべて半角カナに変換
+    def to_hw_katakana
+      NKF.nkf('-w -Z4', to_katakana)
+    end
   end
 
-  def normalize_address
-    # 数字の前後で長音などはありえないのでハイフンに直す, 数字も全角に
-    self.tr('0-9', '０-９').gsub(/([０-９])(#{UserInfoNormalizer::HYPHEN_REGEXP})/, '\1－').strip
+  refine NilClass do
+    def normalize_name_kana; end
+    def normalize_zip_code; end
+    def normalize_address; end
   end
 
-  def normalize_zip_code
-    case UserInfoNormalizer::configuration.zip_code_form
-    when '123-4567'
-      self.tr('０-９', '0-9')
-          .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-')
-          .squeeze('-')
-          .delete("^0-9|-")
-    else
-      # default: '１２３－４５６７'
-      self.tr('0-9', '０-９')
-          .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－')
-          .squeeze('－')
-          .delete("^０-９|－")
-    end.strip
-  end
-
-  def to_hiragana
-    NKF.nkf('-w --hiragana', self)
-  end
-
-  def to_katakana
-    NKF.nkf('-w --katakana', self)
-  end
-
-  # ひらがな、カタカナ混じりのものをすべて半角カナに変換
-  def to_hw_katakana
-    NKF.nkf('-w -Z4', to_katakana)
-  end
-end
-
-class NilClass
-  def normalize_name_kana; end
-  def normalize_zip_code; end
-  def normalize_address; end
 end

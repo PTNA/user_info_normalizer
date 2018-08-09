@@ -19,6 +19,12 @@ Or install it yourself as:
     $ gem install user_info_normalizer
 
 ## Usage
+user_info_normalizerを使うところに以下のように記述します。
+
+```ruby
+using UserInfoNormalizer
+```
+
 今の所名前カナ、住所、郵便番号の形式をいい感じにしてくれます。
 
 ```ruby
@@ -49,7 +55,6 @@ end
 
 ## TODO
 
-- name_kanaにスペース２つが間にあるときに除去してくれない
 - configureの設定項目の充実
 - normalizerの項目充実
 - その他たくさんある
