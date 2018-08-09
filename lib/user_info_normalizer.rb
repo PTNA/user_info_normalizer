@@ -23,7 +23,7 @@ module UserInfoNormalizer
         self.tr(' ', '　').squeeze('　').to_katakana
       else
         # default: 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
-        self.tr('　', ' ').squeeze(' ').to_hw_katakana
+        self.tr('　', ' ').squeeze(' ').to_hankaku_katakana
       end.strip
     end
 
@@ -57,7 +57,7 @@ module UserInfoNormalizer
     end
 
     # ひらがな、カタカナ混じりのものをすべて半角カナに変換
-    def to_hw_katakana
+    def to_hankaku_katakana
       NKF.nkf('-w -Z4', to_katakana)
     end
   end
