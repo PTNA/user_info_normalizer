@@ -36,7 +36,7 @@ config/initializers/user_info_normalizer.rbファイルに以下を記述する�
 ```ruby
 UserInfoNormalizer.configure do |config|
   config.name_kana_form = 'ピティナ　タロウ'
-  config.zip_code = '123-4567'
+  config.zip_code_form = '123-4567'
 end
 
 #...

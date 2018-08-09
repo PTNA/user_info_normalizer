@@ -22,11 +22,11 @@ class String
   def normalize_name_kana
     case UserInfoNormalizer::configuration.name_kana_form
     when 'ピティナ　タロウ'
-      self.tr(' ', '　').to_katakana.strip
+      self.tr(' ', '　').squeeze('　').to_katakana
     else
       # default: 'ﾋﾟﾃｨﾅ ﾀﾛｳ'
-      self.tr('　', ' ').to_hw_katakana.strip
-    end
+      self.tr('　', ' ').squeeze(' ').to_hw_katakana
+    end.strip
   end
 
   def normalize_address
@@ -37,11 +37,11 @@ class String
   def normalize_zip_code
     case UserInfoNormalizer::configuration.zip_code_form
     when '123-4567'
-      self.tr('０-９', '0-9').gsub(/([0-9])(#{UserInfoNormalizer::HYPHEN_REGEXP})/, '\1-').strip
+      self.tr('０-９', '0-9').gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-').squeeze('-').delete("^0-9|-")
     else
       # default: '１２３－４５６７'
-      self.tr('0-9', '０-９').gsub(/([０-９])(#{UserInfoNormalizer::HYPHEN_REGEXP})/, '\1－').strip
-    end
+      self.tr('0-9', '０-９').gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－').squeeze('－').delete("^０-９|－")
+    end.strip
   end
 
   def to_hiragana
