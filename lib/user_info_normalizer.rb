@@ -37,10 +37,16 @@ class String
   def normalize_zip_code
     case UserInfoNormalizer::configuration.zip_code_form
     when '123-4567'
-      self.tr('０-９', '0-9').gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-').squeeze('-').delete("^0-9|-")
+      self.tr('０-９', '0-9')
+          .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-')
+          .squeeze('-')
+          .delete("^0-9|-")
     else
       # default: '１２３－４５６７'
-      self.tr('0-9', '０-９').gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－').squeeze('－').delete("^０-９|－")
+      self.tr('0-9', '０-９')
+          .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－')
+          .squeeze('－')
+          .delete("^０-９|－")
     end.strip
   end
 
