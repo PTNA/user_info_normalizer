@@ -21,6 +21,6 @@ RSpec.describe UserInfoNormalizer do
   end
 
   it 'address normalization' do
-    expect('東京豊島区巣鴨1丁目2ー2コーポ203'.normalize_address).to eq '東京豊島区巣鴨１丁目２－２コーポ２０３'
+    expect('東京豊島区巣鴨1丁目2ー-2コーポ203'.normalize_address).to eq '東京豊島区巣鴨１丁目２－２コーポ２０３'
   end
 end

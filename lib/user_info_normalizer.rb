@@ -29,7 +29,10 @@ module UserInfoNormalizer
 
     def normalize_address
       # 数字の前後で長音などはありえないのでハイフンに直す, 数字も全角に
-      self.tr('0-9', '０-９').gsub(/([０-９])(#{UserInfoNormalizer::HYPHEN_REGEXP})/, '\1－').strip
+      self.tr('0-9', '０-９')
+          .gsub(/([０-９])(#{UserInfoNormalizer::HYPHEN_REGEXP})+/, '\1－')
+          .squeeze('－')
+          .strip
     end
 
     def normalize_zip_code
