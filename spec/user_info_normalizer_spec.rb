@@ -1,4 +1,5 @@
 RSpec.describe UserInfoNormalizer do
+  using UserInfoNormalizer
   it "has a version number" do
     expect(UserInfoNormalizer::VERSION).not_to be nil
   end

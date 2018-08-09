@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    user_info_normalizer (0.1.0)
+    user_info_normalizer (0.3.0)
 
 GEM
   remote: https://rubygems.org/
