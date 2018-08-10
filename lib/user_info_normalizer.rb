@@ -38,17 +38,43 @@ module UserInfoNormalizer
     def normalize_zip_code
       case UserInfoNormalizer::configuration.zip_code_form
       when '123-4567'
-        self.tr('０-９', '0-9')
+        str = self.tr('０-９', '0-9')
             .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-')
             .squeeze('-')
             .delete("^0-9|-")
+        if str.length == 7 && str =~ /\A[0-9]+\z/
+          # 数字７文字だった場合
+          str.insert(3, '-')
+        end
+        str
       else
         # default: '１２３－４５６７'
-        self.tr('0-9', '０-９')
+        str = self.tr('0-9', '０-９')
             .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－')
             .squeeze('－')
             .delete("^０-９|－")
+        if str.length == 7 && str =~ /\A[０-９]+\z/
+          # 全角数字７文字だった場合
+          str.insert(3, '－')
+        end
+        str
       end.strip
+    end
+
+    def normalize_tel
+      case UserInfoNormalizer::configuration.tel_form
+      when '012-3456-7890'
+        self.tr('０-９', '0-9').tr('　', ' ')
+                  .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '-')
+                  .squeeze('-')
+                  .delete("^0-9|-| ").strip.tr(' ', '-')
+      else
+        # default: '１２３－４５６７'
+        self.tr('0-9', '０-９').tr(' ', '　')
+                  .gsub(/#{UserInfoNormalizer::HYPHEN_REGEXP}/, '－')
+                  .squeeze('－')
+                  .delete("^０-９|－|　").strip.tr('　', '－')
+      end
     end
 
     def to_hiragana

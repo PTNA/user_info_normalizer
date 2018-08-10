@@ -14,13 +14,23 @@ RSpec.describe UserInfoNormalizer do
 
   it 'zip_code normalization' do
     expect('12３ー-5747 '.normalize_zip_code).to eq '１２３－５７４７'
+    expect('12３5747 '.normalize_zip_code).to eq '１２３－５７４７'
     UserInfoNormalizer.configure do |config|
       config.zip_code_form = '123-4567'
     end
     expect('12 a３ー5747 '.normalize_zip_code).to eq '123-5747'
+    expect('12３5747 '.normalize_zip_code).to eq '123-5747'
   end
 
   it 'address normalization' do
     expect('東京豊島区巣鴨1丁目2ー-2コーポ203'.normalize_address).to eq '東京豊島区巣鴨１丁目２－２コーポ２０３'
+  end
+
+  it 'tel normalization' do
+    expect('０３ 3944-1583'.normalize_tel).to eq '０３－３９４４－１５８３'
+    UserInfoNormalizer.configure do |config|
+      config.tel_form = '012-3456-7890'
+    end
+    expect(' ０３ 3944 1583　--'.normalize_tel).to eq '03-3944-1583'
   end
 end
