@@ -7,7 +7,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'user_info_normalizer', git: 'https://github.com/hiratamasato/user_info_normalizer'
+gem 'user_info_normalizer'
 ```
 
 And then execute:
