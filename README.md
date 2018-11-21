@@ -25,7 +25,7 @@ user_info_normalizerを使うところに以下のように記述します。
 using UserInfoNormalizer
 ```
 
-今の所名前カナ、住所、郵便番号の形式をいい感じにしてくれます。
+今の所名前カナ、住所、郵便番号、電話番号の形式をいい感じにしてくれます。
 
 ```ruby
 'ピティナ　ｼﾞﾛウ'.normalize_name_kana

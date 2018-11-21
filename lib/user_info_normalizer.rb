@@ -95,6 +95,7 @@ module UserInfoNormalizer
     def normalize_name_kana; end
     def normalize_zip_code; end
     def normalize_address; end
+    def normalize_tel; end
   end
 
 end
